@@ -73,19 +73,19 @@ export default function Projection() {
         <StatCard
           label="Planned FIRE"
           value={retirementAge ? `Age ${retirementAge}` : 'None planned'}
-          sub={fireEventSnap ? `${formatCurrency(fireEventSnap.netWorth, currency, true)} net worth` : undefined}
+          sub={fireEventSnap ? `${formatCurrency(fireEventSnap.netWorth, currency)} net worth` : undefined}
           icon={<Clock size={15} />}
         />
         <StatCard
           label="Peak Liability"
-          value={peakLiability?.amount ? formatCurrency(peakLiability.amount, currency, true) : 'None'}
+          value={peakLiability?.amount ? formatCurrency(peakLiability.amount, currency) : 'None'}
           sub={peakLiability?.amount ? `at age ${Math.round(peakLiability.age)}` : undefined}
           valueColor={peakLiability?.amount ? 'yellow' : 'green'}
           icon={<AlertTriangle size={15} />}
         />
         <StatCard
           label="Plan Status"
-          value={runsOutOfMoney ? `Runs out at ${Math.round(runsOutAtAge ?? 0)}` : 'Sustainable'}
+          value={runsOutOfMoney ? `Broke at ${Math.round(runsOutAtAge ?? 0)}` : 'Sustainable'}
           sub={runsOutOfMoney ? 'Increase contributions' : `To age ${settings.projectionEndAge}`}
           valueColor={runsOutOfMoney ? 'red' : 'green'}
           icon={runsOutOfMoney ? <AlertTriangle size={15} /> : <CheckCircle size={15} />}
@@ -184,7 +184,7 @@ export default function Projection() {
               <div className="bg-[#6c8cff18] border border-[#6c8cff33] rounded-xl p-4">
                 <div className="text-xs text-[#6c8cff] font-medium mb-1">Solve: FIRE Forward Projection</div>
                 <div className="text-sm text-white">
-                  With your current plan, you reach financial independence at age <strong>{fireAge}</strong> with <strong>{formatCurrency(fireSnap.netWorth, currency, true)}</strong> net worth.
+                  With your current plan, you reach financial independence at age <strong>{fireAge}</strong> with <strong>{formatCurrency(fireSnap.netWorth, currency)}</strong> net worth.
                 </div>
               </div>
             )}

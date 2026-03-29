@@ -146,13 +146,13 @@ function CheckpointCard({ checkpoint, projectedNetWorth, projectedAssets, projec
                 </div>
                 <div className="text-right">
                   <div className="text-xs text-white font-medium">
-                    Target: {formatCurrency(item.target, currency, true)}
+                    Target: {formatCurrency(item.target, currency)}
                   </div>
                   {item.projected !== undefined && (
                     <div className={`text-xs ${passes ? 'text-[#4ade80]' : 'text-[#f87171]'}`}>
-                      Projected: {formatCurrency(item.projected, currency, true)}
+                      Projected: {formatCurrency(item.projected, currency)}
                       {variance !== undefined && (
-                        <span className="ml-1">({variance >= 0 ? '+' : ''}{formatCurrency(variance, currency, true)})</span>
+                        <span className="ml-1">({variance >= 0 ? '+' : ''}{formatCurrency(variance, currency)})</span>
                       )}
                     </div>
                   )}

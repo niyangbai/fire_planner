@@ -45,7 +45,7 @@ export default function Dashboard() {
     const s = projection.retirementAge
       ? projection.annual.find((x) => x.age >= (projection.retirementAge ?? 0))
       : projection.annual[projection.annual.length - 1];
-    return formatCurrency(s?.netWorth ?? 0, currency, true);
+    return formatCurrency(s?.netWorth ?? 0, currency);
   })();
 
   return (
@@ -64,7 +64,7 @@ export default function Dashboard() {
           accent icon={<Flame size={16} />} />
         <StatCard label="Planned FIRE"  value={plannedFireAge ? `Age ${plannedFireAge}` : '—'}
           sub={plannedFireAge ? 'FIRE event on timeline' : 'Add a FIRE event'} icon={<Calendar size={16} />} />
-        <StatCard label="Current Net Worth"  value={formatCurrency(snap0?.netWorth ?? 0, currency, true)}
+        <StatCard label="Current Net Worth"  value={formatCurrency(snap0?.netWorth ?? 0, currency)}
           sub={`${formatCurrency(snap0?.cash ?? 0, currency, true)} cash · ${formatCurrency(snap0?.investments ?? 0, currency, true)} invested`}
           icon={<TrendingUp size={16} />} />
         <StatCard label="FIRE Net Worth" value={fireNetWorth} sub="at FIRE" icon={<TrendingUp size={16} />} />
@@ -120,7 +120,7 @@ export default function Dashboard() {
             )}
             {projection.runsOutOfMoney && (
               <Insight type="danger" icon={<AlertCircle size={15} className="text-[#f87171]" />}
-                text={`Warning: plan runs out of investments around age ${Math.round(projection.runsOutAtAge ?? 0)}.`} />
+                text={`Warning: plan goes broke around age ${Math.round(projection.runsOutAtAge ?? 0)}.`} />
             )}
             {plannedFireAge && insights?.fireAge && insights.fireAge > plannedFireAge && (
               <Insight type="warning" icon={<AlertCircle size={15} className="text-[#facc15]" />}

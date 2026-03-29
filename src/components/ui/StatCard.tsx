@@ -31,7 +31,7 @@ export default function StatCard({ label, value, sub, accent, valueColor, icon }
         <div className="text-xs text-[#7b82aa] font-medium uppercase tracking-wider">{label}</div>
         {icon && <div className={accent ? 'text-[#6c8cff]' : 'text-[#7b82aa]'}>{icon}</div>}
       </div>
-      <div className={`text-2xl font-semibold tracking-tight ${color}`}>{value}</div>
+      <div className={`break-words text-xl font-semibold tracking-tight tabular-nums sm:text-2xl ${color}`}>{value}</div>
       {sub && <div className="text-xs text-[#7b82aa] mt-1">{sub}</div>}
     </Card>
   );

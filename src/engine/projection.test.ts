@@ -309,6 +309,7 @@ describe('runProjection — retirement simulation', () => {
     // 100000 / 5000 = 20 months ≈ 1.67 years → runs out around age 61.7
     expect(result.runsOutAtAge!).toBeGreaterThan(61);
     expect(result.runsOutAtAge!).toBeLessThan(62.5);
+    expect(result.annual[result.annual.length - 1]!.age).toBeLessThan(80);
   });
 
   it('zeroes job income at retirement', () => {
@@ -325,7 +326,7 @@ describe('runProjection — retirement simulation', () => {
     expect(snap36.isRetired).toBe(true);
   });
 
-  it('zeroes monthly investment contributions at retirement', () => {
+  it('zeroes monthly investment contributions at FIRE and stops if the plan immediately goes broke', () => {
     const plan = makePlan({
       events: [
         { id: id(), type: 'contribution_change', startAge: 30, title: 'Contrib', monthlyAmount: 1_500 },
@@ -334,9 +335,11 @@ describe('runProjection — retirement simulation', () => {
       settings: { ...DEFAULT_SETTINGS, projectionEndAge: 36, customAnnualGrowthRate: 0 },
     });
     const result = runProjection(plan);
-    const snap36 = result.annual.find((s) => s.age === 36)!;
-    expect(snap36.monthlyInvestmentContrib).toBe(0);
-    expect(snap36.monthlySurplus).toBe(-3_000);
+    const snap35 = result.annual.find((s) => s.age === 35)!;
+    expect(snap35.monthlyInvestmentContrib).toBe(0);
+    expect(snap35.monthlySurplus).toBe(-3_000);
+    expect(result.runsOutOfMoney).toBe(true);
+    expect(result.runsOutAtAge).toBeCloseTo(35, 1);
   });
 
   it('side income continues through retirement', () => {
@@ -405,6 +408,21 @@ describe('runProjection — real estate', () => {
     // Snapshot at age 40 = m=120, loop runs m=0..120 (121 applications of appreciation).
     const expectedValue = 400_000 * Math.pow(1 + 0.03 / 12, 121);
     expect(snap40.realEstate).toBeCloseTo(expectedValue, -2);
+  });
+
+  it('property stays flat when no appreciation rate is provided', () => {
+    const plan = makePlan({
+      profile: { currentAge: 30, currentCash: 500_000, currentInvestments: 0 },
+      events: [{
+        id: id(), type: 'buy_property', startAge: 30, title: 'Flat House',
+        purchasePrice: 400_000, downPayment: 400_000,
+        mortgageRate: 0, mortgageTerm: 30, propertyId: 'home-flat',
+      }],
+      settings: { ...DEFAULT_SETTINGS, projectionEndAge: 40, customAnnualGrowthRate: 0 },
+    });
+    const result = runProjection(plan);
+    const snap40 = result.annual.find((s) => s.age === 40)!;
+    expect(snap40.realEstate).toBeCloseTo(400_000, -2);
   });
 
   it('sell_property adds proceeds to cash and removes mortgage', () => {

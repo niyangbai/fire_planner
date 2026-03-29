@@ -178,7 +178,7 @@ export function runProjection(plan: Plan): ProjectionResult {
         cash -= actualPayment;
         prop.mortgageBalance = Math.max(0, prop.mortgageBalance - (actualPayment - interestPart));
       }
-      prop.value *= (1 + prop.appreciationRate);
+      prop.value = Math.max(0, prop.value * (1 + prop.appreciationRate));
       totalMortgage += prop.mortgageBalance;
       totalRealEstate += prop.value;
     }
@@ -196,6 +196,7 @@ export function runProjection(plan: Plan): ProjectionResult {
     const totalAssets = Math.max(0, cash) + investments + totalRealEstate;
     const totalLiabilities = totalMortgage;
     const netWorth = totalAssets - totalLiabilities;
+    const isBroke = netWorth < 0;
 
     // ── FIRE detection ─────────────────────────────────────────────────────
     // Uses the retire event's target spending if set, otherwise current expenses.
@@ -212,7 +213,7 @@ export function runProjection(plan: Plan): ProjectionResult {
     if (peakLiability === null || totalLiabilities > peakLiability.amount) {
       peakLiability = { age, amount: totalLiabilities };
     }
-    if (!runsOutOfMoney && investments < 0) {
+    if (!runsOutOfMoney && isBroke) {
       runsOutOfMoney = true;
       runsOutAtAge = age;
     }
@@ -237,6 +238,10 @@ export function runProjection(plan: Plan): ProjectionResult {
         monthlySurplus: netCashFlow,
         isRetired,
       });
+    }
+
+    if (isBroke) {
+      break;
     }
   }
 
@@ -296,7 +301,7 @@ function applyEventStart(
         mortgageBalance: principal,
         monthlyPayment: payment,
         mortgageMonthlyRate: event.mortgageRate / 100 / 12,
-        appreciationRate: (event.propertyAppreciationRate ?? 3) / 100 / 12,
+        appreciationRate: (event.propertyAppreciationRate ?? 0) / 100 / 12,
       });
       setters.addCash(-event.downPayment);
       break;

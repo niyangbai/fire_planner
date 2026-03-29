@@ -71,6 +71,7 @@ export default function EventForm({ initialType = 'job_income', existingEvent, o
   const [downPayment,           setDownPayment]           = useState(getField('downPayment'));
   const [mortgageRate,          setMortgageRate]          = useState(getField('mortgageRate'));
   const [mortgageTerm,          setMortgageTerm]          = useState(getField('mortgageTerm'));
+  const [propertyAppreciationRate, setPropertyAppreciationRate] = useState(getField('propertyAppreciationRate'));
   const [salePrice,             setSalePrice]             = useState(getField('salePrice'));
   const [sellingCost,           setSellingCost]           = useState(getField('sellingCost'));
   const [targetMonthlySpending, setTargetMonthlySpending] = useState(getField('targetMonthlySpending'));
@@ -128,7 +129,16 @@ export default function EventForm({ initialType = 'job_income', existingEvent, o
         return { ...base, type, amount: Number(amount) };
       case 'buy_property': {
         const propertyId = existingEvent?.type === 'buy_property' ? existingEvent.propertyId : uuidv4();
-        return { ...base, type, purchasePrice: Number(purchasePrice), downPayment: Number(downPayment), mortgageRate: Number(mortgageRate), mortgageTerm: Number(mortgageTerm), propertyId };
+        return {
+          ...base,
+          type,
+          purchasePrice: Number(purchasePrice),
+          downPayment: Number(downPayment),
+          mortgageRate: Number(mortgageRate),
+          mortgageTerm: Number(mortgageTerm),
+          propertyAppreciationRate: propertyAppreciationRate ? Number(propertyAppreciationRate) : undefined,
+          propertyId,
+        };
       }
       case 'sell_property': {
         const propertyId = existingEvent?.type === 'sell_property'
@@ -215,6 +225,14 @@ export default function EventForm({ initialType = 'job_income', existingEvent, o
               <Input label="Mortgage Rate" type="number" value={mortgageRate}  onChange={(e) => setMortgageRate(e.target.value)}  suffix="% /yr" />
               <Input label="Term"          type="number" value={mortgageTerm}  onChange={(e) => setMortgageTerm(e.target.value)}  suffix="years" error={errors.mortgageTerm} />
             </div>
+            <Input
+              label="Property Growth / Decline"
+              type="number"
+              value={propertyAppreciationRate}
+              onChange={(e) => setPropertyAppreciationRate(e.target.value)}
+              suffix="% /yr"
+              placeholder="0"
+            />
           </>
         )}
 

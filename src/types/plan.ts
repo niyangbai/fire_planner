@@ -86,7 +86,7 @@ export interface BuyPropertyEvent extends BaseEvent {
   downPayment: number;
   mortgageRate: number;           // annual %
   mortgageTerm: number;           // years
-  propertyAppreciationRate?: number; // annual %, defaults to 3%
+  propertyAppreciationRate?: number; // annual %, defaults to 0%
   propertyId: string;
 }
 

@@ -24,7 +24,7 @@ export default function ChartTooltip({ active, payload, label, currency }: Chart
             <div className="w-2 h-2 rounded-full" style={{ background: p.color }} />
             <span className="text-[#7b82aa]">{p.name}</span>
           </div>
-          <span className="font-medium text-white">{formatCurrency(p.value, currency, true)}</span>
+          <span className="font-medium text-white">{formatCurrency(p.value, currency)}</span>
         </div>
       ))}
     </div>

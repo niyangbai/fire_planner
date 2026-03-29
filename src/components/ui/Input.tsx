@@ -8,6 +8,8 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 export default function Input({ label, error, prefix, suffix, className = '', ...props }: InputProps) {
+  const isNumberInput = props.type === 'number';
+
   return (
     <div className="flex flex-col gap-1">
       {label && (
@@ -21,7 +23,17 @@ export default function Input({ label, error, prefix, suffix, className = '', ..
         )}
         <input
           {...props}
-          className={`w-full bg-[#222638] border border-[#2d3148] rounded-lg px-3 py-2 text-sm text-white placeholder-[#404672] focus:outline-none focus:border-[#6c8cff] transition-colors ${prefix ? 'pl-7' : ''} ${suffix ? 'pr-10' : ''} ${className}`}
+          inputMode={isNumberInput ? 'decimal' : props.inputMode}
+          step={isNumberInput && props.step == null ? 'any' : props.step}
+          onWheel={
+            isNumberInput
+              ? (e) => {
+                  e.currentTarget.blur();
+                  props.onWheel?.(e);
+                }
+              : props.onWheel
+          }
+          className={`w-full bg-[#222638] border border-[#2d3148] rounded-lg px-3 py-2 text-sm text-white placeholder-[#404672] focus:outline-none focus:border-[#6c8cff] transition-colors ${prefix ? 'pl-7' : ''} ${suffix ? 'pr-10' : ''} ${isNumberInput ? 'text-right tabular-nums' : ''} ${className}`}
         />
         {suffix && (
           <span className="absolute right-3 text-[#7b82aa] text-sm pointer-events-none">{suffix}</span>
