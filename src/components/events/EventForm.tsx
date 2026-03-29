@@ -27,7 +27,7 @@ const TYPE_OPTIONS: { value: EventType; label: string; group: string }[] = [
   { value: 'contribution_change', label: '📈 Monthly Contribution',  group: 'Investment' },
   { value: 'lump_sum_investment', label: '💎 Lump Sum Investment',   group: 'Investment' },
   // Life
-  { value: 'retire',              label: '🌅 Retire',                group: 'Life' },
+  { value: 'retire',              label: '🌅 FIRE',                  group: 'Life' },
 ];
 
 // Event types that support an optional end age
@@ -201,9 +201,9 @@ export default function EventForm({ initialType = 'job_income', existingEvent, o
           <Input label="Amount" type="number" value={amount} onChange={(e) => setAmount(e.target.value)} prefix="$" />
         )}
 
-        {/* Retire */}
+        {/* FIRE */}
         {type === 'retire' && (
-          <Input label="Target Monthly Spending in Retirement" type="number" value={targetMonthlySpending} onChange={(e) => setTargetMonthlySpending(e.target.value)} prefix="$" />
+          <Input label="Target Monthly Spending at FIRE" type="number" value={targetMonthlySpending} onChange={(e) => setTargetMonthlySpending(e.target.value)} prefix="$" />
         )}
 
         {/* Buy property */}

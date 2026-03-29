@@ -179,7 +179,7 @@ function EmptyState({ onAdd }: { onAdd: () => void }) {
       </div>
       <div className="text-white font-medium mb-2">No events yet</div>
       <div className="text-sm text-[#7b82aa] max-w-xs mb-6">
-        Add the next financial event in your life — a salary raise, house purchase, or retirement.
+        Add the next financial event in your life — a salary raise, house purchase, or FIRE milestone.
       </div>
       <Button variant="primary" onClick={onAdd}><Plus size={15} /> Add your first event</Button>
     </div>

@@ -18,7 +18,7 @@ export default function Dashboard() {
   }
 
   const { profile, settings, events, lifelineCheckpoints } = plan;
-  const retireAge = events.find((e) => e.type === 'retire')?.startAge ?? null;
+  const plannedFireAge = events.find((e) => e.type === 'retire')?.startAge ?? null;
   const currency = settings.currency;
   const insights  = computeFireInsights(plan, projection);
   const snap0     = projection.annual[0];
@@ -41,7 +41,7 @@ export default function Dashboard() {
 
   const surplus = snap0?.monthlySurplus ?? 0;
 
-  const retirementNetWorth = (() => {
+  const fireNetWorth = (() => {
     const s = projection.retirementAge
       ? projection.annual.find((x) => x.age >= (projection.retirementAge ?? 0))
       : projection.annual[projection.annual.length - 1];
@@ -62,12 +62,12 @@ export default function Dashboard() {
         <StatCard label="Projected FIRE Age" value={insights?.fireAge ? `${insights.fireAge}` : '—'}
           sub={insights?.yearsUntilFire ? `${Math.round(insights.yearsUntilFire)} years away` : 'Add more details'}
           accent icon={<Flame size={16} />} />
-        <StatCard label="Retirement"  value={retireAge ? `Age ${retireAge}` : '—'}
-          sub={retireAge ? 'retire event on timeline' : 'Add a Retire event'} icon={<Calendar size={16} />} />
+        <StatCard label="Planned FIRE"  value={plannedFireAge ? `Age ${plannedFireAge}` : '—'}
+          sub={plannedFireAge ? 'FIRE event on timeline' : 'Add a FIRE event'} icon={<Calendar size={16} />} />
         <StatCard label="Current Net Worth"  value={formatCurrency(snap0?.netWorth ?? 0, currency, true)}
           sub={`${formatCurrency(snap0?.cash ?? 0, currency, true)} cash · ${formatCurrency(snap0?.investments ?? 0, currency, true)} invested`}
           icon={<TrendingUp size={16} />} />
-        <StatCard label="Retirement Net Worth" value={retirementNetWorth} sub="at retirement" icon={<TrendingUp size={16} />} />
+        <StatCard label="FIRE Net Worth" value={fireNetWorth} sub="at FIRE" icon={<TrendingUp size={16} />} />
         <StatCard label="Monthly Surplus"    value={formatCurrency(surplus, currency)}
           sub={surplus >= 0 ? 'You are saving' : 'You are in deficit'} accent={surplus >= 0} />
       </div>
@@ -97,7 +97,7 @@ export default function Dashboard() {
             )}
             {projection.retirementAge && Math.round(projection.retirementAge) !== Math.round(projection.fireAge ?? 0) && (
               <ReferenceLine x={Math.round(projection.retirementAge)} stroke="#a78bfa" strokeDasharray="4 4"
-                label={{ value: 'Retire', position: 'top', fill: '#a78bfa', fontSize: 11 }} />
+                label={{ value: 'FIRE', position: 'top', fill: '#a78bfa', fontSize: 11 }} />
             )}
             <Area type="monotone" dataKey="Assets"      stroke="#4ade80" fill="url(#db-assets)"   strokeWidth={1.5} dot={false} />
             <Area type="monotone" dataKey="Net Worth"   stroke="#6c8cff" fill="url(#db-networth)" strokeWidth={2}   dot={false} />
@@ -122,9 +122,9 @@ export default function Dashboard() {
               <Insight type="danger" icon={<AlertCircle size={15} className="text-[#f87171]" />}
                 text={`Warning: plan runs out of investments around age ${Math.round(projection.runsOutAtAge ?? 0)}.`} />
             )}
-            {retireAge && insights?.fireAge && insights.fireAge > retireAge && (
+            {plannedFireAge && insights?.fireAge && insights.fireAge > plannedFireAge && (
               <Insight type="warning" icon={<AlertCircle size={15} className="text-[#facc15]" />}
-                text={`Projected FIRE age (${insights.fireAge}) is after your retire event (${retireAge}).`} />
+                text={`Projected FIRE age (${insights.fireAge}) is after your planned FIRE age (${plannedFireAge}).`} />
             )}
           </div>
         </Card>

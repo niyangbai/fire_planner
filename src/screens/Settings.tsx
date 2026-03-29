@@ -69,7 +69,7 @@ export default function Settings() {
             />
           </div>
           <div className="mt-4 bg-[#222638] rounded-lg px-4 py-3 text-xs text-[#7b82aa]">
-            💡 Income, expenses, contributions, and retirement age are all events on the Timeline.
+            💡 Income, expenses, contributions, and FIRE age are all events on the Timeline.
           </div>
         </Card>
 

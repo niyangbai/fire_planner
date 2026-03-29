@@ -27,13 +27,11 @@ export default function Projection() {
   const { annual, fireAge, retirementAge, peakLiability, runsOutOfMoney, runsOutAtAge } = projection;
   const currency = settings.currency;
 
-  // Retirement age comes from the retire event, not a profile field
-  const retireEventAge = plan.events.find((e) => e.type === 'retire')?.startAge ?? null;
+  const plannedFireAge = plan.events.find((e) => e.type === 'retire')?.startAge ?? null;
 
-  // Solve for required contribution if a retire event is set
   let requiredContrib: number | null = null;
-  if (retireEventAge) {
-    requiredContrib = solveMonthlyContribution(plan, retireEventAge);
+  if (plannedFireAge) {
+    requiredContrib = solveMonthlyContribution(plan, plannedFireAge);
   }
 
   const chartData = annual.map((s) => ({
@@ -53,7 +51,7 @@ export default function Projection() {
     return { age: a, netWorth: snap?.netWorth ?? null };
   });
 
-  const retirementSnap = retirementAge ? annual.find((s) => s.age >= retirementAge) : null;
+  const fireEventSnap = retirementAge ? annual.find((s) => s.age >= retirementAge) : null;
   const fireSnap = fireAge ? annual.find((s) => s.age >= fireAge) : null;
 
   return (
@@ -69,13 +67,13 @@ export default function Projection() {
           label="FIRE Age"
           value={fireAge ? `${fireAge}` : '—'}
           sub={fireAge ? `${Math.round(fireAge - profile.currentAge)}y away` : 'Not reached in projection'}
-          valueColor={fireAge && (!retireEventAge || fireAge <= retireEventAge) ? 'green' : fireAge ? 'yellow' : 'red'}
+          valueColor={fireAge && (!plannedFireAge || fireAge <= plannedFireAge) ? 'green' : fireAge ? 'yellow' : 'red'}
           icon={<TrendingUp size={15} />}
         />
         <StatCard
-          label="Retirement Start"
+          label="Planned FIRE"
           value={retirementAge ? `Age ${retirementAge}` : 'None planned'}
-          sub={retirementSnap ? `${formatCurrency(retirementSnap.netWorth, currency, true)} net worth` : undefined}
+          sub={fireEventSnap ? `${formatCurrency(fireEventSnap.netWorth, currency, true)} net worth` : undefined}
           icon={<Clock size={15} />}
         />
         <StatCard
@@ -119,7 +117,7 @@ export default function Projection() {
             <Tooltip content={<ChartTooltip currency={currency} />} />
             <Legend iconType="circle" iconSize={8} wrapperStyle={{ fontSize: 12, color: '#7b82aa', paddingTop: 12 }} />
             {fireAge && <ReferenceLine x={Math.round(fireAge)} stroke="#6c8cff" strokeDasharray="4 4" label={{ value: 'FIRE', position: 'top', fill: '#6c8cff', fontSize: 10 }} />}
-            {retirementAge && <ReferenceLine x={Math.round(retirementAge)} stroke="#a78bfa" strokeDasharray="4 4" label={{ value: 'Retire', position: 'top', fill: '#a78bfa', fontSize: 10 }} />}
+            {retirementAge && <ReferenceLine x={Math.round(retirementAge)} stroke="#a78bfa" strokeDasharray="4 4" label={{ value: 'FIRE', position: 'top', fill: '#a78bfa', fontSize: 10 }} />}
             <Area type="monotone" dataKey="Investments" stroke="#6c8cff" fill="url(#invGrad)" strokeWidth={2} dot={false} />
             <Area type="monotone" dataKey="Cash" stroke="#4ade80" fill="url(#cashGrad)" strokeWidth={1.5} dot={false} />
             <Area type="monotone" dataKey="Real Estate" stroke="#a78bfa" fill="url(#reGrad)" strokeWidth={1.5} dot={false} />
@@ -190,25 +188,25 @@ export default function Projection() {
                 </div>
               </div>
             )}
-            {retireEventAge && requiredContrib !== null && (
+            {plannedFireAge && requiredContrib !== null && (
               <div className="bg-[#a78bfa18] border border-[#a78bfa33] rounded-xl p-4">
                 <div className="text-xs text-[#a78bfa] font-medium mb-1">Solve: Required Monthly Contribution</div>
                 <div className="text-sm text-white">
-                  To retire at age <strong>{retireEventAge}</strong>, you need to invest approximately <strong>{formatCurrency(requiredContrib, currency)}/mo</strong>.
+                  To reach FIRE at age <strong>{plannedFireAge}</strong>, you need to invest approximately <strong>{formatCurrency(requiredContrib, currency)}/mo</strong>.
                 </div>
               </div>
             )}
-            {retireEventAge && requiredContrib === null && (
+            {plannedFireAge && requiredContrib === null && (
               <div className="bg-[#facc1518] border border-[#facc1533] rounded-xl p-4">
                 <div className="text-xs text-[#facc15] font-medium mb-1">Solve: Required Monthly Contribution</div>
                 <div className="text-sm text-white">
-                  Retirement at age <strong>{retireEventAge}</strong> may not be achievable with contributions alone. Consider increasing income or reducing spending.
+                  FIRE at age <strong>{plannedFireAge}</strong> may not be achievable with contributions alone. Consider increasing income or reducing spending.
                 </div>
               </div>
             )}
-            {!retireEventAge && (
+            {!plannedFireAge && (
               <div className="text-sm text-[#7b82aa] p-4 bg-[#222638] rounded-xl">
-                Add a <strong className="text-white">Retire</strong> event on the Timeline to unlock solve insights.
+                Add a <strong className="text-white">FIRE</strong> event on the Timeline to unlock solve insights.
               </div>
             )}
           </div>

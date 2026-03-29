@@ -23,7 +23,7 @@ export const EVENT_META: Record<
   contribution_change: { emoji: '📈', label: 'Monthly Contribution', color: '#a78bfa', bg: '#a78bfa18', category: 'Investment' },
   lump_sum_investment: { emoji: '💎', label: 'Lump Sum Investment',  color: '#a78bfa', bg: '#a78bfa18', category: 'Investment' },
   // Life
-  retire:              { emoji: '🌅', label: 'Retire',               color: '#facc15', bg: '#facc1518', category: 'Life' },
+  retire:              { emoji: '🌅', label: 'FIRE',                 color: '#facc15', bg: '#facc1518', category: 'Life' },
 };
 
 // ── Human-readable summary line for each event ────────────────────────────────
