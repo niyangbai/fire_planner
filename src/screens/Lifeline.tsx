@@ -50,12 +50,12 @@ function CheckpointForm({ existing, onSave, onCancel, currentAge }: CheckpointFo
     <div className="bg-[#1a1d27] border border-[#6c8cff44] rounded-xl p-5 flex flex-col gap-4">
       <div className="text-sm font-semibold text-white">{existing ? 'Edit Checkpoint' : 'New Checkpoint'}</div>
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         <Input label="Age" type="number" value={age} onChange={(e) => setAge(e.target.value)} suffix="yrs" />
         <Input label="Title" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Checkpoint label" />
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         <Input label="Target Net Worth" type="number" value={targetNetWorth} onChange={(e) => setTargetNetWorth(e.target.value)} prefix="$" />
         <Input label="Target Assets" type="number" value={targetAssets} onChange={(e) => setTargetAssets(e.target.value)} prefix="$" />
         <Input label="Target Liabilities (max)" type="number" value={targetLiabilities} onChange={(e) => setTargetLiabilities(e.target.value)} prefix="$" />
@@ -193,7 +193,7 @@ export default function Lifeline() {
   }
 
   return (
-    <div className="p-8 overflow-y-auto h-full">
+    <div className="h-full overflow-y-auto p-4 sm:p-6 lg:p-8">
       <PageHeader
         title="Lifeline"
         subtitle="Set target checkpoints for your financial journey."

@@ -57,14 +57,14 @@ export default function Projection() {
   const fireSnap = fireAge ? annual.find((s) => s.age >= fireAge) : null;
 
   return (
-    <div className="p-8 overflow-y-auto h-full">
+    <div className="h-full overflow-y-auto p-4 sm:p-6 lg:p-8">
       <PageHeader
         title="Projection & Analysis"
         subtitle="How your plan plays out over time."
       />
 
       {/* Summary Metrics */}
-      <div className="grid grid-cols-2 xl:grid-cols-4 gap-4 mb-8">
+      <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <StatCard
           label="FIRE Age"
           value={fireAge ? `${fireAge}` : '—'}

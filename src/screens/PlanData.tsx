@@ -86,7 +86,7 @@ export default function PlanData() {
   };
 
   return (
-    <div className="p-8 overflow-y-auto h-full">
+    <div className="h-full overflow-y-auto p-4 sm:p-6 lg:p-8">
       <PageHeader
         title="Plan Data"
         subtitle="Manage your plan, import, and export."
@@ -101,14 +101,14 @@ export default function PlanData() {
           </div>
 
           <div className="flex flex-col gap-3">
-            <div className="flex items-center justify-between bg-[#222638] rounded-lg px-4 py-3">
+            <div className="flex flex-col gap-3 rounded-lg bg-[#222638] px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
               <span className="text-xs text-[#7b82aa]">Plan Name</span>
               {isRenaming ? (
                 <div className="flex items-center gap-2">
                   <Input
                     value={newName}
                     onChange={(e) => setNewName(e.target.value)}
-                    className="py-1 text-xs w-40"
+                    className="w-full py-1 text-xs sm:w-40"
                     onKeyDown={(e) => e.key === 'Enter' && handleRename()}
                   />
                   <button onClick={handleRename} className="text-[#4ade80]">
@@ -134,9 +134,9 @@ export default function PlanData() {
               { label: 'Lifeline Checkpoints', value: `${planStats.checkpoints}` },
               { label: 'Currency', value: plan.settings.currency },
             ].map(({ label, value }) => (
-              <div key={label} className="flex items-center justify-between bg-[#222638] rounded-lg px-4 py-3">
+              <div key={label} className="flex items-center justify-between gap-4 rounded-lg bg-[#222638] px-4 py-3">
                 <span className="text-xs text-[#7b82aa]">{label}</span>
-                <span className="text-sm text-white">{value}</span>
+                <span className="text-right text-sm text-white">{value}</span>
               </div>
             ))}
           </div>
@@ -187,7 +187,7 @@ export default function PlanData() {
               Clear all data and start fresh. This cannot be undone — export first if needed.
             </div>
             {resetConfirm ? (
-              <div className="flex items-center gap-3">
+              <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center">
                 <span className="text-xs text-[#f87171]">Are you sure?</span>
                 <Button variant="danger" onClick={handleReset}>
                   Yes, Reset

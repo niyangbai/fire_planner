@@ -174,7 +174,7 @@ export default function EventForm({ initialType = 'job_income', existingEvent, o
           disabled={isEdit}
         />
 
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           <Input label="Start Age" type="number" value={startAge} onChange={(e) => setStartAge(e.target.value)} error={errors.startAge} suffix="yrs" />
           {HAS_END_AGE.includes(type) && (
             <Input label="End Age (optional)" type="number" value={endAge} onChange={(e) => setEndAge(e.target.value)} error={errors.endAge} suffix="yrs" />
@@ -211,7 +211,7 @@ export default function EventForm({ initialType = 'job_income', existingEvent, o
           <>
             <Input label="Purchase Price"  type="number" value={purchasePrice} onChange={(e) => setPurchasePrice(e.target.value)} prefix="$" />
             <Input label="Down Payment"    type="number" value={downPayment}   onChange={(e) => setDownPayment(e.target.value)}   prefix="$" error={errors.downPayment} />
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               <Input label="Mortgage Rate" type="number" value={mortgageRate}  onChange={(e) => setMortgageRate(e.target.value)}  suffix="% /yr" />
               <Input label="Term"          type="number" value={mortgageTerm}  onChange={(e) => setMortgageTerm(e.target.value)}  suffix="years" error={errors.mortgageTerm} />
             </div>

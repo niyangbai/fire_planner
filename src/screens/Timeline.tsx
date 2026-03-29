@@ -110,8 +110,8 @@ export default function Timeline() {
   const closePanel = () => { setIsAddOpen(false); setEditingEvent(null); };
 
   return (
-    <div className="flex h-full">
-      <div className="flex-1 overflow-y-auto p-8">
+    <div className="flex h-full min-h-0">
+      <div className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
         <PageHeader
           title="Timeline Planner"
           subtitle="Build your life plan event by event."
@@ -161,8 +161,10 @@ export default function Timeline() {
       </div>
 
       {(isAddOpen || editingEvent) && (
-        <div className="w-96 shrink-0 border-l border-[#2d3148] bg-[#0f1117] overflow-hidden flex flex-col">
-          <EventForm existingEvent={editingEvent ?? undefined} onClose={closePanel} />
+        <div className="fixed inset-0 z-40 bg-black/50 md:static md:z-auto md:bg-transparent">
+          <div className="absolute inset-x-0 bottom-0 top-12 flex flex-col overflow-hidden rounded-t-2xl border border-[#2d3148] bg-[#0f1117] shadow-2xl md:relative md:top-0 md:w-96 md:rounded-none md:border-y-0 md:border-r-0 md:border-l md:shadow-none">
+            <EventForm existingEvent={editingEvent ?? undefined} onClose={closePanel} />
+          </div>
         </div>
       )}
     </div>

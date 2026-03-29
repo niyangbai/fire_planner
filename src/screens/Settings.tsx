@@ -32,7 +32,7 @@ export default function Settings() {
   const [showAdvanced, setShowAdvanced] = useState(false);
 
   return (
-    <div className="p-8 overflow-y-auto h-full">
+    <div className="h-full overflow-y-auto p-4 sm:p-6 lg:p-8">
       <PageHeader
         title="Settings & Assumptions"
         subtitle="Configure your projection parameters."
@@ -45,7 +45,7 @@ export default function Settings() {
             <SettingsIcon size={15} className="text-[#6c8cff]" />
             <div className="text-sm font-semibold text-white">Profile</div>
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <Input
               label="Current Age"
               type="number"
@@ -79,7 +79,7 @@ export default function Settings() {
             <SettingsIcon size={15} className="text-[#a78bfa]" />
             <div className="text-sm font-semibold text-white">Projection Settings</div>
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <Select
               label="Currency"
               value={settings.currency}
@@ -120,7 +120,7 @@ export default function Settings() {
           </button>
 
           {showAdvanced && (
-            <div className="mt-5 grid grid-cols-2 gap-4">
+            <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
               <Input
                 label="Custom Growth Rate (overrides mode)"
                 type="number"

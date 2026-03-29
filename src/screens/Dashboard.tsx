@@ -49,7 +49,7 @@ export default function Dashboard() {
   })();
 
   return (
-    <div className="p-8">
+    <div className="p-4 sm:p-6 lg:p-8">
       <PageHeader
         title="Dashboard"
         subtitle={`Viewing ${plan.name}`}
@@ -57,7 +57,7 @@ export default function Dashboard() {
       />
 
       {/* Summary cards */}
-      <div className="grid grid-cols-2 xl:grid-cols-3 gap-4 mb-8">
+      <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
         <StatCard label="Current Age"        value={`${profile.currentAge}`}   sub="years old"     icon={<Clock size={16} />} />
         <StatCard label="Projected FIRE Age" value={insights?.fireAge ? `${insights.fireAge}` : '—'}
           sub={insights?.yearsUntilFire ? `${Math.round(insights.yearsUntilFire)} years away` : 'Add more details'}
@@ -106,7 +106,7 @@ export default function Dashboard() {
         </ResponsiveContainer>
       </Card>
 
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
         {/* Insights */}
         <Card className="p-6">
           <div className="text-sm font-medium text-white mb-4">Quick Insights</div>

@@ -27,10 +27,10 @@ export default function App() {
   const { isOnboarding } = usePlanStore();
 
   return (
-    <div className="flex h-screen overflow-hidden bg-[#0f1117]">
+    <div className="flex min-h-screen flex-col bg-[#0f1117] md:h-screen md:flex-row md:overflow-hidden">
       {isOnboarding && <Onboarding />}
       <Sidebar />
-      <main className="flex-1 overflow-y-auto">
+      <main className="min-h-0 flex-1 overflow-y-auto">
         <ScreenContent />
       </main>
     </div>
