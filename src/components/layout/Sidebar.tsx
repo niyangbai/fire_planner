@@ -7,6 +7,7 @@ import {
   Database,
   Settings,
   Flame,
+  ExternalLink,
 } from 'lucide-react';
 import type { Screen } from '../../store/planStore';
 import { usePlanStore } from '../../store/planStore';
@@ -21,6 +22,8 @@ const NAV_ITEMS: { id: Screen; label: string; icon: React.ReactNode }[] = [
   { id: 'data', label: 'Plan Data', icon: <Database size={18} /> },
   { id: 'settings', label: 'Settings', icon: <Settings size={18} /> },
 ];
+
+const REPO_URL = 'https://github.com/niyangbai/fire_planner';
 
 export default function Sidebar() {
   const { activeScreen, setScreen, plan, lastSaved } = usePlanStore();
@@ -64,8 +67,19 @@ export default function Sidebar() {
 
       {/* Save status */}
       <div className="px-5 py-4 border-t border-[#2d3148]">
-        <div className="text-[10px] text-[#7b82aa]">
-          {lastSaved ? `Saved ${formatRelativeTime(lastSaved)}` : 'Not yet saved'}
+        <div className="flex items-end justify-between gap-3">
+          <div className="text-[10px] text-[#7b82aa]">
+            {lastSaved ? `Saved ${formatRelativeTime(lastSaved)}` : 'Not yet saved'}
+          </div>
+          <a
+            href={REPO_URL}
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Open GitHub repository"
+            className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#2d3148] text-[#7b82aa] transition-colors hover:border-[#404672] hover:text-white"
+          >
+            <ExternalLink size={15} />
+          </a>
         </div>
       </div>
     </aside>
